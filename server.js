@@ -1,6 +1,9 @@
 import express from 'express'
 import cors from 'cors'
-require("dotenv").config()
+import 'dotenv/config'
+
+import { tokenRouter } from "./routes/token-router.js"
+import { scoreRouter } from "./routes/score-router.js"
 
 const PORT = process.env.PORT || 8080
 
@@ -9,5 +12,11 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+app.use("/token", tokenRouter)
 
-app.listen()
+app.use("/scores", scoreRouter)
+
+
+app.listen(PORT, () => {
+    console.log(`running on http://localhost:${PORT}`);
+})

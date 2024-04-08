@@ -1,10 +1,10 @@
 // Update with your config settings.
-require("dotenv").config()
+import "dotenv/config"
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
-module.exports = {
+export const Knexfile = {
 
   development: {
     client: 'mysql2',
