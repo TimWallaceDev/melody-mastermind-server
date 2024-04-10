@@ -4,6 +4,7 @@ import 'dotenv/config'
 
 import { tokenRouter } from "./routes/token-router.js"
 import { scoreRouter } from "./routes/score-router.js"
+import { userRouter } from './routes/user-router.js'
 
 const PORT = process.env.PORT || 8080
 
@@ -15,6 +16,8 @@ app.use(express.json())
 app.use("/token", tokenRouter)
 
 app.use("/scores", scoreRouter)
+
+app.use("/users", userRouter)
 
 
 app.listen(PORT, () => {
