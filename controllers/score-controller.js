@@ -8,7 +8,14 @@ export async function playlistScores(req, res){
     console.log(playlist)
     try {
         //get scores for individual playlist
-        const scores = await knex("scores").select("*").where({playlist_id: playlist})
+        //join table with username
+        const scores = await knex("scores").select(
+            "scores.id", 
+            "playlist_id", 
+            "score", 
+            "scores.user_id",
+            "users.username"
+        ).where({playlist_id: playlist}).join("users", "scores.user_id", "users.id")
         console.log(scores)
 
         //return results to client
@@ -26,15 +33,39 @@ export async function postScore(req, res){
     try {
         //get user id
         const userArr = await knex("users").select("id").where({username: username})
+        console.log(userArr)
         const user_id = userArr[0].id
+        
         console.log("user id:", user_id)
         //save score to database
         const response = await knex("scores").insert({user_id: user_id, score, playlist_id: playlist_id})
-
+        console.log(response)
+        const score_id = response[0]
         //send confirmation
-        res.status(201).send("score has been saved in the database")
+
+        //change to json
+        res.status(201).send({id: score_id, playlistId: playlist_id, score: score, user_id: user_id, username: username})
     }catch(err){
         console.log(err)
         res.status(500).json(err)
     }
+}
+
+export async function allScores(req, res){
+    //get all scores from database
+    try {
+        const scores = await knex("scores").select(
+            "scores.id", 
+            "playlist_id", 
+            "score", 
+            "scores.user_id",
+            "users.username"
+        ).join("users", "scores.user_id", "users.id")
+    
+        res.status(200).json(scores)
+    }catch(err){
+        console.log(err)
+        res.status(500).json(err)
+    }
+    
 }
