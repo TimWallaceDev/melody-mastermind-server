@@ -8,7 +8,7 @@ export async function checkUsername(req, res) {
         const user = await knex("users").select("*").where({ username: username })
         if (user.length > 0) {
             //username is taken. send response 
-            res.status(400).json({ username_available: false })
+            res.status(409).json({ username_available: false })
         } else {
             //username is available. create user
             res.status(201).json({ username_available: true })
