@@ -5,7 +5,7 @@ const knex = Knex(Knexfile.development);
 
 export async function playlistScores(req, res){
     const {playlist} = req.params
-    console.log(playlist)
+
     try {
         //get scores for individual playlist
         //join table with username
@@ -16,7 +16,6 @@ export async function playlistScores(req, res){
             "scores.user_id",
             "users.username"
         ).where({playlist_id: playlist}).join("users", "scores.user_id", "users.id")
-        console.log(scores)
 
         //return results to client
         res.status(200).json(scores)
@@ -29,17 +28,13 @@ export async function playlistScores(req, res){
 
 export async function postScore(req, res){
     const {username, score, playlist_id} = req.body
-    console.log(username, score, playlist_id)
     try {
         //get user id
         const userArr = await knex("users").select("id").where({username: username})
-        console.log(userArr)
         const user_id = userArr[0].id
         
-        console.log("user id:", user_id)
         //save score to database
         const response = await knex("scores").insert({user_id: user_id, score, playlist_id: playlist_id})
-        console.log(response)
         const score_id = response[0]
         //send confirmation
 

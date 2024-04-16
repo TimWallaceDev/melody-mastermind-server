@@ -4,9 +4,14 @@ const knex = Knex(Knexfile.development);
 
 const playlists = [
     {
-        "name": "Viral Hits",
-        "playlistId": "37i9dQZF1DX2L0iB23Enbq",
-        "playlistImg": "https://i.scdn.co/image/ab67706f00000003d971c6c23114fc7636dc23eb"
+        "name": "Top 100",
+        "playlistId": "5ABHKGoOzxkaa28ttQV9sE",
+        "playlistImg": "https://i2o.scdn.co/image/ab67706c0000cfa382a04c37e7ae0d899edb198e"
+    },
+    {
+        "name": "60's mix",
+        "playlistId": "37i9dQZF1DXaKIA8E7WcJj",
+        "playlistImg": "https://i.scdn.co/image/ab67706f000000027d2220cb073e82fe520555fc"
     },
     {
         "name": "70's mix",
@@ -24,24 +29,14 @@ const playlists = [
         "playlistImg": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000bebbc47d6a6244a43c585ad705d2"
     },
     {
-        "name": "worlds longest smoke break",
-        "playlistId": "1qSQwiZA13xixRU8Rzacuz",
-        "playlistImg": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000bebbf1bd499a6ad2e8c1628a6146"
-    },
-    {
         "name": "Blues Classics",
         "playlistId": "37i9dQZF1DXd9rSDyQguIk",
         "playlistImg": "https://i.scdn.co/image/ab67706f000000027500902fb0aa21f0bdb12cfd"
     },
     {
-        "name": "Classic Rock Hits",
-        "playlistId": "1ti3v0lLrJ4KhSTuxt4loZ",
-        "playlistImg": "https://mosaic.scdn.co/640/ab67616d00001e0236caeed42195d1bbc2a90604ab67616d00001e0251c02a77d09dfcd53c8676d0ab67616d00001e02c5653f9038e42efad2f8a266ab67616d00001e02ebfe4419da90f76a5b278564"
-    },
-    {
-        "name": "Hip Hop Mix",
-        "playlistId": "37i9dQZF1EQnqst5TRi17F",
-        "playlistImg": "https://seed-mix-image.spotifycdn.com/v6/img/hip_hop/1RyvyyTE3xzB2ZywiAwp0i/en/default"
+        "name": "Classic Rock",
+        "playlistId": "3DYUw0nHB9o8tLZKQup4zp",
+        "playlistImg": "https://mosaic.scdn.co/640/ab67616d00001e023fa684e0f8fad563122ff6dcab67616d00001e029e994564d5e7fff06c7c7fd5ab67616d00001e02a7af122cd50575f63a156586ab67616d00001e02d7d4922d7d2b7e596084075e"
     },
     {
         "name": "90's Hip Hop",
@@ -49,9 +44,24 @@ const playlists = [
         "playlistImg": "https://i.scdn.co/image/ab67706f00000002b5e5274fbae4bcf84bf57f69"
     },
     {
+        "name": "2000's Pop",
+        "playlistId": "6mtYuOxzl58vSGnEDtZ9uB",
+        "playlistImg": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84a730bed7741fc8b1cc36b3f9"
+    },
+    {
+        "name": "2010's Hits",
+        "playlistId": "5XALIurWS8TuF6kk8bj438",
+        "playlistImg": "https://mosaic.scdn.co/640/ab67616d00001e026d4056466fc11f6408be2566ab67616d00001e02b2b2747c89d2157b0b29fb6aab67616d00001e02d77a9a738c99b8c4f7a7c3eeab67616d00001e02e80e7dbce3996a1ae5967751"
+    },
+    {
         "name": "Rap Bangers Only",
         "playlistId": "2xT3ZPE51ewIFa3dLLpkSa",
         "playlistImg": "https://mosaic.scdn.co/640/ab67616d00001e026aca031ccc27d2e4dd829d14ab67616d00001e02cdb645498cd3d8a2db4d05e1ab67616d00001e02d9194aa18fa4c9362b47464fab67616d00001e02f54b99bf27cda88f4a7403ce"
+    },
+    {
+        "name": "Hard Rock",
+        "playlistId": "0rrFbHWdEKGHGEkZIRCItn",
+        "playlistImg": "https://mosaic.scdn.co/640/ab67616d00001e022b222dcd5c4fcac7c0e81da2ab67616d00001e026b3463e7160d333ada4b175aab67616d00001e02985bf5ede2fe4a048ee85f28ab67616d00001e02c65f8d04502eeddbdd61fa71"
     },
     {
         "name": "Musicals",
@@ -64,48 +74,45 @@ const playlists = [
         "playlistImg": "https://seed-mix-image.spotifycdn.com/v6/img/country/40ZNYROS4zLfyyBSs2PGe2/en/default"
     },
     {
-        "name": "2000's Pop",
-        "playlistId": "6mtYuOxzl58vSGnEDtZ9uB",
-        "playlistImg": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84a730bed7741fc8b1cc36b3f9"
-    },
-    {
         "name": "Classical Essentials",
         "playlistId": "37i9dQZF1DWWEJlAGA9gs0",
         "playlistImg": "https://i.scdn.co/image/ab67706f0000000204342edaafe98ad14f6b8b70"
-    },
-    {
-        "name": "Hard Rock/Metal",
-        "playlistId": "1GXRoQWlxTNQiMNkOe7RqA",
-        "playlistImg": "https://mosaic.scdn.co/640/ab67616d00001e021bfd51b2bc7d3c1a0ed13b4dab67616d00001e029683e5d7361bb80bfb00f46dab67616d00001e02a492203c6bb696640e89665bab67616d00001e02c8e5391a619e9e8ea2162073"
     }
 ]
 
 export async function getAccountInfo(req, res) {
+    //get user Id
     const { username } = req.params
-    console.log({ username })
     const userArr = await knex("users").select("id").where({ username })
     const userId = userArr[0].id
-    //get user Id
 
     //get all scores
     const scores = await knex("scores").select("*")
 
-    //number of games played DONE
+    //number of games played 
     const userScores = scores.filter(score => score.user_id === userId)
     const games_played = userScores.length
-    console.log({ games_played })
 
-    //top score DONE
+    //check that games have been played, if not, return array with placeholders
+    if (userScores.length === 0) {
+        res.status(200).json({
+            games_played: "No Games Played",
+            highest_score: 0,
+            best_playlist: "N/A",
+            most_played: "N/A",
+            playlists_played: 0
+        })
+        return
+    }
+
+    //top score
     const highest_scores = userScores.sort((a, b) => a.score < b.score ? 1 : -1)
     const highest_score_obj = highest_scores[0]
     const highest_score = highest_score_obj.score
-    console.log({ highest_score })
-    //highest rank => complex
 
-    //playlist most played TODO
+    //playlist most played
     const playlistCount = {}
-    userScores.forEach(score => playlistCount.hasOwnProperty(score.playlist_id) ? playlistCount[score.playlist_id] = playlistCount[score.playlist_id] + 1 : playlistCount[score.playlist_id] = 0)
-    
+    userScores.forEach(score => playlistCount.hasOwnProperty(score.playlist_id) ? playlistCount[score.playlist_id] = playlistCount[score.playlist_id] + 1 : playlistCount[score.playlist_id] = 1)
     let highestValue = 0;
     let highestKey = null;
 
@@ -116,23 +123,22 @@ export async function getAccountInfo(req, res) {
         }
     }
 
-    const mostPlayedPlaylistName = playlists.find(playlist => playlist.playlistId === highestKey)
+    const mostPlayedPlaylistObj = playlists.find(playlist => playlist.playlistId === highestKey)
+    const most_played = mostPlayedPlaylistObj["name"]
 
-    //number of playlists played DONE
+    //number of playlists played
     const playlists_played = Object.keys(playlistCount).length
 
-    //playlist with highest score DONE
+    //playlist with highest score
     const best_playlist_id = highest_score_obj.playlist_id
-    console.log({ best_playlist_id })
     const best_playlist_obj = playlists.find(playlist => playlist.playlistId === best_playlist_id)
-    const best_playlist = best_playlist_obj.name
+    const best_playlist = best_playlist_obj["name"]
 
     const information = {
         games_played,
         highest_score,
-        highest_rank: 0,
         best_playlist,
-        most_played: mostPlayedPlaylistName.name,
+        most_played,
         playlists_played
     }
     res.status(200).json(information)

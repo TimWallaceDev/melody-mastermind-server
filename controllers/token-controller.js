@@ -17,8 +17,6 @@ export async function getToken(req, res) {
         }
         //request token from spotify
         let response = await axios.post("https://accounts.spotify.com/api/token", body, headers)
-
-        console.log(response.data)
     
         //send token back to client
         res.status(200).send(response.data)

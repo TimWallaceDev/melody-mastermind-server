@@ -32,7 +32,6 @@ export async function createUser(req, res) {
         } else {
             //username is available. create user
             const response = await knex("users").insert({ username })
-            console.log("user created")
             res.status(201).send(response)
         }
     }
