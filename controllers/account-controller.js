@@ -1,6 +1,9 @@
 import Knex from "knex";
 import Knexfile from "../knexfile.js";
 const knex = Knex(Knexfile.development);
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+
 
 const playlists = [
     {
@@ -80,11 +83,110 @@ const playlists = [
     }
 ]
 
+export async function signup(req, res) {
+    const { username, email, password } = req.body
+
+    if (!username || !password || !email) {
+        return res.status(400).send("Enter required fields!");
+    }
+
+    const newUser = {
+        username,
+        email,
+        //encrypt password
+        password: bcrypt.hashSync(password)
+    }
+
+    console.log(newUser)
+
+    //save user to database
+    try {
+        await knex("users").insert(newUser)
+        res.status(201).send("account has been created")
+    } catch (err) {
+        console.log(err)
+        res.status(400).json(err)
+    }
+}
+
+export async function login(req, res) {
+    const { username, password } = req.body
+    console.log(username, password)
+
+    //check that all fields are present
+    if (!username || !password) {
+        res.status(400).send("please fill in all fields")
+    }
+
+    //lookup username in database
+    const user = await knex("users").where({ username }).first()
+    console.log(user === true)
+    console.log({ user })
+
+    //make sure that user exists
+    if (!user) {
+        console.log("user is fake news")
+        return res.status(400).send("Incorrect Login Information (no user)")
+    }
+    console.log("user seems to exist")
+
+    //make sure that password matches 
+    if (!bcrypt.compareSync(password, user.password)) {
+        return res.status(400).send("Incorrect Login Information (password)");
+    }
+
+    //generate token
+    const secret = process.env.JWT_SECRET
+    console.log({ secret })
+
+    const token = jwt.sign({ username }, process.env.JWT_SECRET)
+    //sent JWT
+    res.status(200).json({token})
+}
+
+export async function guest(req, res) {
+
+    // create unique username
+    let randomUsername;
+    let userTaken=false;
+    do {
+        const randomInt = Math.floor(Math.random() * 9999)
+        randomUsername = `guest${randomInt}`
+        console.log(randomUsername)
+
+        //check that username is not already taken
+        const user = await knex("users").where({ username: randomUsername })
+        console.log(user)
+        if (user.length > 0){
+            userTaken = true;
+        }
+    }
+    while (userTaken)
+
+    const newUser = {
+        username: randomUsername
+    }
+
+    //save guest to database
+    try {
+        await knex("users").insert(newUser)
+    } catch (err) {
+        console.log(err)
+        res.status(400).json(err)
+    }
+
+    //generate token
+    const secret = process.env.JWT_SECRET
+    const token = jwt.sign({ randomUsername }, process.env.JWT_SECRET)
+
+    //sent JWT
+    res.status(200).json({token, username: randomUsername})
+}
+
 export async function getAccountInfo(req, res) {
     //get user Id
     const { username } = req.params
-    const userArr = await knex("users").select("id").where({ username })
-    const userId = userArr[0].id
+    const userId = await knex("users").select("id").where({ username }).first()
 
     //get all scores
     const scores = await knex("scores").select("*")
