@@ -2,6 +2,7 @@ import Knex from "knex";
 import Knexfile from "../knexfile.js";
 const knex = Knex(Knexfile.development);
 
+const playlists = await knex("playlists")
 
 export async function playlistScores(req, res){
     const {playlist} = req.params
@@ -57,7 +58,7 @@ export async function allScores(req, res){
             "users.username"
         ).join("users", "scores.user_id", "users.id")
     
-        res.status(200).json(scores)
+        res.status(200).json({scores, playlists})
     }catch(err){
         console.log(err)
         res.status(500).json(err)
