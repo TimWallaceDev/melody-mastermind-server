@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export async function getToken(req, res) {
+    console.log("token request")
 
     try {
         const headers = {
