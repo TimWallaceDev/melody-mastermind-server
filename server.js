@@ -15,17 +15,17 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use("/token", tokenRouter)
+app.use("api/token", tokenRouter)
 
-app.use("/scores", scoreRouter)
+app.use("api/scores", scoreRouter)
 
-app.use("/users", userRouter)
+app.use("api/users", userRouter)
 
-app.use("/account", accountRouter)
+app.use("api/account", accountRouter)
 
-app.use("/playlists", playlistRouter)
+app.use("api/playlists", playlistRouter)
 
 
 app.listen(PORT, () => {
-    console.log(`running on http://localhost:${PORT}`);
+    console.log(`running on http://localhost:${PORT}/api`);
 })
