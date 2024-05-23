@@ -6,8 +6,6 @@ import jwt from "jsonwebtoken"
 
 const playlists = await knex("playlists")
 
-console.log(playlists)
-
 export async function signup(req, res) {
     const { username, email, password } = req.body
 
@@ -22,8 +20,6 @@ export async function signup(req, res) {
         password: bcrypt.hashSync(password)
     }
 
-    console.log(newUser)
-
     //save user to database
     try {
         await knex("users").insert(newUser)
@@ -36,7 +32,6 @@ export async function signup(req, res) {
 
 export async function login(req, res) {
     const { username, password } = req.body
-    console.log(username, password)
 
     //check that all fields are present
     if (!username || !password) {
@@ -45,26 +40,23 @@ export async function login(req, res) {
 
     //lookup username in database
     const user = await knex("users").where({ username }).first()
-    console.log(user === true)
-    console.log({ user })
 
     //make sure that user exists
     if (!user) {
-        console.log("user is fake news")
-        return res.status(400).send("Incorrect Login Information (no user)")
+        console.log("user does not exist")
+        return res.status(400).send("Incorrect Login Information")
     }
     console.log("user seems to exist")
 
     //make sure that password matches 
     if (!bcrypt.compareSync(password, user.password)) {
-        return res.status(400).send("Incorrect Login Information (password)");
+        return res.status(400).send("Incorrect Login Information");
     }
 
     //generate token
     const secret = process.env.JWT_SECRET
-    console.log({ secret })
 
-    const token = jwt.sign({ username }, process.env.JWT_SECRET)
+    const token = jwt.sign({ username }, secret)
     //sent JWT
     res.status(200).json(token)
 }
@@ -77,19 +69,14 @@ export async function guest(req, res) {
     do {
         const randomInt = Math.floor(Math.random() * 9999)
         randomUsername = `guest${randomInt}`
-        console.log(randomUsername)
 
         //check that username is not already taken
         const user = await knex("users").where({ username: randomUsername })
-        console.log(user)
         if (user.length > 0) {
             userTaken = true;
         }
     }
     while (userTaken)
-
-        console.log("random username" + randomUsername)
-
     const newUser = {
         username: randomUsername
     }
@@ -115,7 +102,6 @@ export async function getAccountInfo(req, res) {
     const { authorization } = req.headers
     // Parse out the bearer token
     const JWT = authorization.split(" ")[1];
-    console.log("JWT:" + JWT)
 
     //double check that username and token exists
     if (!JWT) {
@@ -126,12 +112,9 @@ export async function getAccountInfo(req, res) {
     // 'payload' will contain the payload encoded when the jwt was generated (signed) when we logged in.
     // If this part fails to verify, we end up in 'catch' block
     const payload = jwt.verify(JWT, process.env.JWT_SECRET);
-    console.log("usernamec" + payload.username)
 
     /// we are verified!
-
     const userId = await knex("users").select("id").where({ username: payload.username }).first()
-
 
     //get all scores
     const scores = await knex("scores").select("*")
@@ -148,7 +131,8 @@ export async function getAccountInfo(req, res) {
             highest_score: 0,
             best_playlist: "N/A",
             most_played: "N/A",
-            playlists_played: 0
+            playlists_played: 0,
+            username: payload.username
         })
         return
     }
@@ -164,7 +148,6 @@ export async function getAccountInfo(req, res) {
     let highestValue = 0;
     let highestKey = null;
 
-
     for (const [key, value] of Object.entries(playlistCount)) {
         if (value > highestValue) {
             highestValue = value;
@@ -173,7 +156,6 @@ export async function getAccountInfo(req, res) {
     }
 
     const mostPlayedPlaylistObj = playlists.find(playlist => playlist.id === highestKey)
-    console.log(mostPlayedPlaylistObj)
     const most_played = mostPlayedPlaylistObj["name"]
 
     //number of playlists played
